@@ -236,7 +236,7 @@ __END__
 
 =head1 NAME
 
-Pod::Coverage::TrustMe - A new module
+Pod::Coverage::TrustMe - Pod::Coverage but more powerful
 
 =head1 SYNOPSIS
 
@@ -244,7 +244,45 @@ Pod::Coverage::TrustMe - A new module
 
 =head1 DESCRIPTION
 
-A new module.
+Checks Pod coverage like L<Pod::Coverage>, but with several extra features. Also
+uses different Pod parser based on L<Pod::Simple>.
+
+=head1 OPTIONS
+
+=over 4
+
+=item trust_parents
+
+Includes Pod from parent classes in list of covered subs. Like
+L<Pod::Coverage::CountParents>. Defaults to true.
+
+=item trust_roles
+
+Includes Pod from consumed roles in list of covered subs. Like
+L<Pod::Coverage::CountParents>, but checking C<does> or C<DOES>. Defaults to true.
+
+=item trust_pod
+
+Trusts subs listed in C<Pod::Coverage> blocks in Pod. Like
+L<Pod::Coverage::TrustPod>. Defaults to true.
+
+=item require_link
+
+Requires a link in the Pod to parent classes or roles to include them in the
+coverage.
+
+=item export_only
+
+Only requires subs listed in C<@EXPORT> and C<@EXPORT_OK> be covered.
+
+=item trust_imported
+
+Trusts subs that were imported from other packages. If set to false, every sub
+in the package needs to be covered, even if it is imported from another package.
+Subs that aren't part of the API should be cleaned using a tool like
+L<namespace::clean>. See also L<Test::CleanNamespaces>. Defaults to true.
+
+=back
 
 =head1 AUTHOR
 
