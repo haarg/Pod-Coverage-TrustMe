@@ -149,3 +149,59 @@ sub covered {
 
 1;
 __END__
+
+=head1 NAME
+
+Pod::Coverage::TrustMe::Parser - Parse pod for checking coverage
+
+=head1 SYNOPSIS
+
+  my $parser = Pod::Coverage::TrustMe::Parser->new;
+  $parser->parse_file($pod_file);
+
+  $parser->
+  if ($self->{nonwhitespace}) {
+    $parser->ignore_empty(1);
+  }
+
+
+=head1 DESCRIPTION
+
+A subclass of L<Pod::Simple> which extracts headings and items to check for
+covered symbols.
+
+=head1 METHODS
+
+=over 4
+
+=item ignore_empty
+
+  $parser->ignore_empty(1);
+
+Can be called to set if empty sections should be in ignored when checking for
+covered symbols.
+
+=item covered
+
+Returns an arrayref of symbols that are covered by the pod.
+
+=item links
+
+Returns an arrayref of the modules that are linked to in the pod.
+
+=item trusted
+
+Returns an arrayref of symbols listed as trusted using C<=for Pod::Coverage>
+annotations.
+
+=back
+
+=head1 AUTHORS
+
+See L<Pod::Coverage::TrustMe> for authors.
+
+=head1 COPYRIGHT AND LICENSE
+
+See L<Pod::Coverage::TrustMe> for the copyright and license.
+
+=cut
