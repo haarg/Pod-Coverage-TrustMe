@@ -101,7 +101,7 @@ sub new {
 
   if (exists $args{private} || exists $args{also_private}) {
     $new->{private} = [
-      map +(ref ? $_ : qr/\A\Q$_\E\z/), (
+      map +(ref $_ ? $_ : qr/\A\Q$_\E\z/), (
         @{ $new->{private} },
         exists $args{also_private} ? @{ $args{also_private} } : (),
       )
