@@ -7,9 +7,7 @@ my %META = (
   license => 'perl_5',
   prereqs => {
     configure => { requires => {
-      'ExtUtils::MakeMaker'   => 0,
-    } },
-    build => { requires => {
+      'ExtUtils::MakeMaker' => 0,
     } },
     test => {
       requires => {
@@ -18,10 +16,13 @@ my %META = (
     },
     runtime => {
       requires => {
-      },
-    },
-    develop   => {
-      requires => {
+        'Carp'          => 0,
+        'Cwd'           => 0,
+        'File::Find'    => 0,
+        'File::Spec'    => 0,
+        'Getopt::Long'  => 0,
+        'Pod::Simple'   => 0,
+        'Test::Builder' => 0,
       },
     },
   },
@@ -39,8 +40,6 @@ my %META = (
   },
   no_index => {
     directory => [ 't', 'xt' ]
-  },
-  x_breaks => {
   },
   x_authority => 'cpan:HAARG',
 );
