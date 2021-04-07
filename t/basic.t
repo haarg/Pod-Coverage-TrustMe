@@ -11,7 +11,7 @@ for my $file (glob('t/corpus/*.pm')) {
   $package =~ s{\.pm\z}{};
   $package =~ s{/|\\}{::}g;
 
-  Pod::Coverage::TrustMe->import(package => $package, require_link => 1);
+  Pod::Coverage::TrustMe->new(package => $package, require_link => 1);
 
   ok 1;
 }

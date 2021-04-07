@@ -8,9 +8,6 @@ $VERSION =~ tr/_//d;
 use Pod::Simple ();
 our @ISA = qw(Pod::Simple);
 use Carp qw(croak);
-use constant DEBUG => 0;
-
-DEBUG and require Data::Dumper;
 
 sub new {
   my $class = shift;
@@ -56,15 +53,13 @@ sub _handle_element_start {
   my $self = shift;
   my $me = $self->{+__PACKAGE__};
   my ($name, $attr) = @_;
-  warn "START $name\n" if DEBUG;
-  local $Data::Dumper::Terse = 1, warn Data::Dumper::Dumper($attr) if DEBUG;
   if ($name eq 'for') {
     push @{ $me->{in} }, $attr;
   }
   elsif ($name eq 'L' && $attr->{type} eq 'pod' && defined $attr->{to}) {
     push @{ $me->{links} }, "$attr->{to}";
   }
-  elsif ($name eq 'item' || $name =~ /\Ahead[2-9]\z/) {
+  elsif ($name eq 'item-text' || $name eq 'item-bullet' || $name =~ /\Ahead[2-9]\z/) {
     delete $me->{maybe_covered};
     $me->{consider} = $name;
     $me->{consider_text} = '';
@@ -78,7 +73,6 @@ sub _handle_element_end {
   my $self = shift;
   my $me = $self->{+__PACKAGE__};
   my ($name) = @_;
-  warn "END $name\n" if DEBUG;
   if ($name eq 'for') {
     pop @{ $self->{+__PACKAGE__}{in} };
   }
@@ -109,11 +103,10 @@ sub _handle_text {
   my $self = shift;
   my $me = $self->{+__PACKAGE__};
   my ($text) = @_;
-  warn "TEXT '$text'\n" if DEBUG;
   my $in = $me->{in};
   if ($in && @$in && $in->[-1]{target} eq 'Pod::Coverage') {
     my @trusted;
-    for my $token ($text =~ /(\S+)/) {
+    for my $token ($text =~ /(\S+)/g) {
       if ($token eq '*EVERYTHING*') {
         push @trusted, qr{.?};
       }

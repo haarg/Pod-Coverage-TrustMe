@@ -46,9 +46,12 @@ my %META = (
 );
 
 my %MM_ARGS = (
-    EXE_FILES => [
-        'bin/pod-cover',
-    ],
+  EXE_FILES => [
+    'bin/pod-cover-trustme',
+  ],
+  test => {
+    TESTS => 't/*.t t/*/*.t',
+  },
 );
 
 ## BOILERPLATE ###############################################################

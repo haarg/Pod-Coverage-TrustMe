@@ -4,4 +4,10 @@ use Distar 0.001;
 
 author 'haarg - Graham Knop (cpan:HAARG) <haarg@haarg.org>';
 
+manifest_include 't/[^/]+/lib' => '.pm';
+manifest_include 't/[^/]+/lib' => '.pod';
+manifest_include 't/corpus' => '.pm';
+manifest_include 't/corpus' => '.pod';
+manifest_include 'bin' => qr/.*/;
+
 1;
