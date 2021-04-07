@@ -2,7 +2,7 @@ package Pod::Coverage::TrustMe::Parser;
 use strict;
 use warnings;
 
-our $VERSION = '0.001000';
+our $VERSION = '0.001_001';
 $VERSION =~ tr/_//d;
 
 use Pod::Simple ();
