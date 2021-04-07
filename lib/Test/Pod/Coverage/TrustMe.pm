@@ -141,7 +141,7 @@ sub pod_coverage_ok {
     if (!$ok) {
       $Test->diag(join('',
         "Naked subroutines:\n",
-        map "\t$_\n", $cover->uncovered,
+        map "    $_\n", $cover->uncovered,
       ));
     }
   }
