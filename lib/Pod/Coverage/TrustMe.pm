@@ -312,13 +312,23 @@ sub trusted_packages {
   return @trusted;
 }
 
+sub _pod_parser_class { 'Pod::Coverage::TrustMe::Parser' }
 sub _new_pod_parser {
   my $self = shift;
 
-  my $parser = Pod::Coverage::TrustMe::Parser->new;
+  my $parser = $self->_pod_parser_class->new(@_);
   if ($self->{nonwhitespace}) {
     $parser->ignore_empty(1);
   }
+  return $parser;
+}
+sub _pod_parser_for {
+  my $self = shift;
+  my ($pack) = @_;
+  my $pod = $self->_pod_for($pack)
+    or return undef;
+  my $parser = $self->_new_pod_parser;
+  $parser->parse_file($pod);
   return $parser;
 }
 
@@ -329,21 +339,15 @@ sub _parsed {
 
   my %parsed = map {
     my $pack = $_;
-    my $pod = $self->_pod_for($pack);
-
-    $pod ? do {
-      my $parser = $self->_new_pod_parser;
-      $parser->parse_file($pod);
-
-      ($pack => $parser);
-    } : ();
+    my $parser = $self->_pod_parser_for($pack);
+    $parser ? ($pack => $parser) : ();
   } $self->trusted_packages;
 
   if ($self->{require_link}) {
     my $package = $self->package;
     my %allowed;
     my %find_links = (
-      $package => delete $parsed{$package},
+      $package => delete $parsed{$package} || $self->_pod_parser_for($package),
     );
 
     while (%find_links) {
