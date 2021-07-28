@@ -209,8 +209,6 @@ sub import {
   return
     if !@_;
 
-  my @args = 
-
   $class->new(@_ == 1 ? (package => $_[0]) : @_)->print_report;
   return;
 }
