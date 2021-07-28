@@ -7,9 +7,9 @@ use lib 't/Pod-Coverage-TrustPod/lib';
 use Pod::Coverage::TrustMe;
 my $PC = 'Pod::Coverage::TrustMe';
 
-my $ok = eval { 
+my $ok = eval {
   {
-    my $obj = $PC->new( package  => 'ChildWithPod',);
+    my $obj = $PC->new( package => 'ChildWithPod' );
     if (! defined $obj->coverage) {
       diag "no coverage: " . $obj->why_unrated;
       die;

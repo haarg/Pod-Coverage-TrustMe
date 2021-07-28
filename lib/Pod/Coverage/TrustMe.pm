@@ -15,8 +15,7 @@ use constant DEFAULT_PRIVATE => do {
   [
     qr/\A_/,
     qr/\A\(/,           # overload
-    (map qr{\A\Q$_\E\z}, grep !$s{$_}++,
-      qw(
+    (map qr{\A\Q$_\E\z}, grep !$s{$_}++, qw(
       import
       unimport
 
