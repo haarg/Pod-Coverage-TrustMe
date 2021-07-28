@@ -84,7 +84,7 @@ my %DEFAULTS = (
   trust_pod       => 1,
   require_link    => 0,
   export_only     => 0,
-  trust_imported  => 1,
+  ignore_imported => 1,
   nonwhitespace   => 0,
   trustme         => [],
   private         => DEFAULT_PRIVATE,
@@ -378,19 +378,13 @@ sub _symbols_for {
     );
   }
   else {
-    my @subs = grep !/::\z/ && defined &{$package.'::'.$_}, keys %{$package.'::'};
-    for my $sym ( @subs ) {
-      if ($self->{trust_imported}) {
-        if (B::svref_2object(\*{$package.'::'.$sym})->GvFLAGS & _GVf_IMPORTED_CV) {
-          next;
-        }
-      }
-
-      next
-        if $self->_private_check($sym);
-
-      push @symbols, $sym;
-    }
+    @symbols =
+      grep !(
+        $self->{ignore_imported} && $self->_imported_check($_)
+        or $self->_private_check($_)
+      ),
+      grep !/::\z/ && defined &{$package.'::'.$_},
+      keys %{$package.'::'};
   }
 
   return @symbols;
@@ -440,6 +434,14 @@ sub _trustme_check {
   return scalar grep $sym =~ /$_/,
     @{ $self->{trustme} },
     @{ $self->_trusted_from_pod };
+}
+
+sub _imported_check {
+  my $self = shift;
+  my ($sym) = @_;
+  my $package = $self->{package};
+  no strict 'refs';
+  return !!(B::svref_2object(\*{$package.'::'.$sym})->GvFLAGS & _GVf_IMPORTED_CV);
 }
 
 1;
@@ -534,9 +536,9 @@ linked to in some way.
 
 Only requires subs listed in C<@EXPORT> and C<@EXPORT_OK> to be covered.
 
-=item trust_imported
+=item ignore_imported
 
-Trusts subs that were imported from other packages. If set to false, every sub
+Ignore subs that were imported from other packages. If set to false, every sub
 in the package needs to be covered, even if it is imported from another package.
 Subs that aren't part of the API should be cleaned using a tool like
 L<namespace::clean>, or excluded in some way. See also L<Test::CleanNamespaces>.
