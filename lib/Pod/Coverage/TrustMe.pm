@@ -14,7 +14,10 @@ use constant DEFAULT_PRIVATE => do {
   my %s;
   [
     qr/\A_/,
-    qr/\A\(/,           # overload
+    # anything with non-word characters is not standard syntax, so exclude
+    # them. this includes overloads, which are internally stored as methods
+    # starting with '('.
+    qr/\W/,
     (map qr{\A\Q$_\E\z}, grep !$s{$_}++, qw(
       import
       unimport
