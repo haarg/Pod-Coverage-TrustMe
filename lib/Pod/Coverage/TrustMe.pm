@@ -164,7 +164,7 @@ sub why_unrated {
 sub uncovered {
   my $self = shift;
   my $symbols = $self->symbols
-    or return undef;
+    or return ();
   my @uncovered = sort grep !$symbols->{$_}, keys %$symbols;
   return @uncovered;
 }
@@ -176,7 +176,7 @@ sub naked {
 sub covered {
   my $self = shift;
   my $symbols = $self->symbols
-    or return undef;
+    or return ();
   my @covered = sort grep $symbols->{$_}, keys %$symbols;
   return @covered;
 }
