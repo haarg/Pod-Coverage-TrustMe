@@ -438,22 +438,6 @@ sub _trustme_check {
     @{ $self->_trusted_from_pod };
 }
 
-sub _CvGV {
-  my $self = shift;
-  my ($sub) = @_;
-
-  my $cv = B::svref_2object($sub);
-  my $gv = $cv->GV or return;
-
-  if ($gv->can('object_2svref')) {
-    return *{ $gv->object_2svref };
-  }
-  else {
-    no strict 'refs';
-    return *{ $gv->STASH->NAME . '::' . $gv->NAME };
-  }
-}
-
 1;
 __END__
 
