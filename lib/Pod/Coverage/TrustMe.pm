@@ -430,7 +430,7 @@ sub _trusted_from_pod {
 sub _private_check {
   my $self = shift;
   my ($sym) = @_;
-  return grep { $sym =~ /$_/ } @{ $self->{private} };
+  return scalar grep $sym =~ /$_/, @{ $self->{private} };
 }
 
 sub _trustme_check {
