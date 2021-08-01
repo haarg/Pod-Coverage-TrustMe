@@ -189,7 +189,7 @@ default.
 
 =head1 FUNCTIONS
 
-=head2 pod_coverage_ok ( $module, [ $options, ] $message )
+=head2 pod_coverage_ok ( $module[, $options][, $message] )
 
 Tests the coverage of the C<$module> given. Options specified will be passed
 along to the constructor of L<Pod::Coverage::TrustMe>. A default test message
@@ -199,10 +199,11 @@ A special options of C<coverage_class> can be used to specify an alternative
 class to use for calculating coverage. This option will not be passed along
 to the class constructor.
 
-=head2 all_pod_coverage_ok ( [$options, ] $message )
+=head2 all_pod_coverage_ok ( [ $options ] [, $message ] )
 
 Tests coverage for all modules found. This will set a test plan, so it should
-not be used in scripts doing other tests.
+not be used in scripts doing other tests. Alternatively, it can be run in its
+own subtest.
 
 =head2 all_modules ( @dirs )
 
