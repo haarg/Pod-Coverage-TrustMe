@@ -622,7 +622,9 @@ documentation found.
 
 =item DEFAULT_PRIVATE
 
-An array reference of the default list of private regular expressions.
+An array reference of the default list of private regular expressions. This
+includes methods beginning with underscores, methods called by perl for
+language features, and methods called internally by Moo and Moose.
 
 =back
 
