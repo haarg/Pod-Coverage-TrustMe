@@ -21,6 +21,7 @@ use constant DEFAULT_PRIVATE => do {
     (map qr{\A\Q$_\E\z}, grep !$s{$_}++, qw(
       import
       unimport
+      VERSION
 
       can
       isa
