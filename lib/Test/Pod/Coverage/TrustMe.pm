@@ -146,7 +146,9 @@ sub pod_coverage_ok {
 }
 
 sub all_pod_coverage_ok {
-  my @modules = all_modules();
+  my %opts = ref $_[0] eq 'HASH' ? %{ +shift } : ();
+  my $dirs = delete $opts{dirs};
+  my @modules = all_modules(@{ $dirs || [] });
 
   our $Test ||= Test::Builder->new;
   local $Test::Builder::Level = $Test::Builder::Level + 1;
@@ -204,6 +206,13 @@ to the class constructor.
 Tests coverage for all modules found. This will set a test plan, so it should
 not be used in scripts doing other tests. Alternatively, it can be run in its
 own subtest.
+
+Accepts the same options as L</pod_coverage_ok>, in addition to a C<dirs>
+option to specify an array reference of directories to search for modules. The
+L</all_modules> function will be used to search these directories. Note that
+the modules must still be loadable using a L<require|perlfunc/require>. This
+module will not automatically add the specified directories to
+L<@INC|perlvar/@INC>.
 
 =head2 all_modules ( @dirs )
 
