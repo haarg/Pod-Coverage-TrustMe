@@ -525,12 +525,16 @@ true.
 Trusts subs or regexes listed in C<Pod::Coverage> blocks in Pod. Like
 L<Pod::Coverage::TrustPod>. Defaults to true.
 
+The regexes must match the entire method name.
+
 A section like:
 
   =for Pod::Coverage sub1 sub2 [A-Z_]+
 
 will allow the subs C<sub1>, C<sub2>, and any sub that is all upper case to
 exist without being documented.
+
+The special token C<*EVERYTHING*> can be used to trust every method.
 
 =item require_link
 
