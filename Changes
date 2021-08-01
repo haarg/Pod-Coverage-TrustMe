@@ -1,5 +1,6 @@
 Revision history for Pod-Coverage-TrustMe
 
+0.001002 - 2021-08-01
   - release as stable
   - remove unused _CvGV method which was explicitly documented as not existing
   - fix covered and uncovered methods to return empty lists when no symbols
