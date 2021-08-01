@@ -112,13 +112,10 @@ sub all_modules {
 
 sub pod_coverage_ok {
   my $module = shift;
-  my $opts = ref $_[0] eq 'HASH' ? shift : {};
+  my %opts = ref $_[0] eq 'HASH' ? %{ +shift } : ();
   my $msg = shift || "Pod coverage on $module";
 
-  my %opts = (
-    %$opts,
-    package => $module,
-  );
+  $opts{package} = $module;
 
   my $class = delete $opts{coverage_class} || 'Pod::Coverage::TrustMe';
   (my $mod = "$class.pm") =~ s{::}{/}g;
