@@ -439,7 +439,7 @@ sub _trustme_check {
 
   return scalar grep $sym =~ /$_/,
     @{ $self->{trustme} },
-    @{ $self->_trusted_from_pod };
+    ($self->{trust_pod} ? @{ $self->_trusted_from_pod } : ());
 }
 
 sub _imported_check {
