@@ -35,6 +35,8 @@ use constant DEFAULT_PRIVATE => do {
 
       BUILD
       BUILDALL
+      BUILDARGS
+      FOREIGNBUILDARGS
       DEMOLISH
       DEMOLISHALL
 
