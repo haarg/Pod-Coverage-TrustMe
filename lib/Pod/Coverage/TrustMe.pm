@@ -261,7 +261,10 @@ sub _get_roles {
   my $does
     = $package->can('does') ? 'does'
     : $package->can('DOES') ? 'DOES'
-                            : return;
+                            : undef;
+  if (!$does || $package->can($does) == \&UNIVERSAL::DOES) {
+    return;
+  }
   return grep $_ ne $package && $package->$does($_), $self->_search_packages;
 }
 
