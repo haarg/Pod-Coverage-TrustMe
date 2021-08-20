@@ -95,6 +95,7 @@ my %DEFAULTS = (
   ignore_imported => 1,
   require_content => 0,
   trust_methods   => [],
+  trust_packages  => [],
   private         => DEFAULT_PRIVATE,
   pod_from        => undef,
   package         => undef,
@@ -321,15 +322,14 @@ sub _pod_for {
 sub trusted_packages {
   my $self = shift;
 
-  my %to_parse = (
-    $self->package => 1,
-  );
-  @to_parse{$self->_get_roles} = ()
-    if $self->{trust_roles};
-  @to_parse{$self->_get_parents} = ()
-    if $self->{trust_parents};
+  my %seen;
+  my @trusted = sort grep !$seen{$_}++,
+    $self->package,
+    @{ $self->{trust_packages} },
+    ($self->{trust_roles} ? $self->_get_roles : ()),
+    ($self->{trust_parents} ? $self->_get_parents : ()),
+  ;
 
-  my @trusted = sort keys %to_parse;
   return @trusted;
 }
 
@@ -546,6 +546,10 @@ L<Pod::Coverage::CountParents>. Defaults to true.
 Includes Pod from consumed roles in list of covered subs. Like
 L<Pod::Coverage::CountParents>, but checking C<does> or C<DOES>. Defaults to
 true.
+
+=item trust_packages
+
+Includes Pod from an array ref of packages in the list of covered subs.
 
 =item trust_pod
 
