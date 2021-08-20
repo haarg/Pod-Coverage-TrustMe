@@ -571,11 +571,12 @@ The special token C<*EVERYTHING*> can be used to trust every method.
 
 Requires a link in the Pod to parent classes or roles to include them in the
 coverage. If the documentation for subs is in different files, they should be
-linked to in some way.
+linked to in some way. Defaults to false.
 
 =item export_only
 
 Only requires subs listed in C<@EXPORT> and C<@EXPORT_OK> to be covered.
+Defaults to false.
 
 =item ignore_imported
 
