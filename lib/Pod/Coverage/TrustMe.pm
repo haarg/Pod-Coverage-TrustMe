@@ -404,6 +404,12 @@ sub _symbols_for {
         $self->{ignore_imported} && $self->_imported_check($_)
         or $self->_private_check($_)
       ),
+      map {
+        my $sym = $_;
+        utf8::decode($sym)
+          if !utf8::is_utf8($_);
+        $sym;
+      }
       grep !/::\z/ && defined &{$package.'::'.$_},
       keys %{$package.'::'};
   }
