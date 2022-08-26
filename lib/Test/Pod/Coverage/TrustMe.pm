@@ -130,8 +130,17 @@ sub pod_coverage_ok {
   my $rating = $cover->coverage;
   if (!defined $rating) {
     my $why = $cover->why_unrated;
-    $ok = $Test->ok( defined $cover->symbols, $msg );
-    $Test->diag( "$module: ". $cover->why_unrated );
+    # shim for using with Pod::Coverage subclasses rather than TrustMe
+    my $pass
+      = $cover->can('symbols') ? defined $cover->symbols
+      : $why !~ /\Arequiring .* failed\z/;
+    $ok = $Test->ok( $pass, $msg );
+    if ($pass) {
+      $Test->note( "$module: $why" );
+    }
+    else {
+      $Test->diag( "$module: $why" );
+    }
   }
   else {
     $ok = $Test->is_eq((map sprintf('%3.0f%%', $_ * 100), $rating, 1), $msg);
