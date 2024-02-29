@@ -26,6 +26,11 @@ my %META = (
         'Test::Builder' => 0,
       },
     },
+    develop => {
+      requires => {
+        'Test::Pod::Coverage' => 0,
+      },
+    },
   },
   resources => {
     repository => {
