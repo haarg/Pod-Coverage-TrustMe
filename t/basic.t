@@ -3,10 +3,10 @@ use warnings;
 use Test::More;
 use Pod::Coverage::TrustMe;
 
-unshift @INC, 't/corpus';
+unshift @INC, 't/corpus/full';
 
-for my $file (glob('t/corpus/*.pm')) {
-  $file =~ s{\At/corpus/}{};
+for my $file (glob('t/corpus/full/*.pm')) {
+  $file =~ s{\At/corpus/full/}{};
   my $package = $file;
   $package =~ s{\.pm\z}{};
   $package =~ s{/|\\}{::}g;
