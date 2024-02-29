@@ -130,12 +130,16 @@ sub pod_coverage_ok {
   my $rating = $cover->coverage;
   if (!defined $rating) {
     my $why = $cover->why_unrated;
-    # shim for using with Pod::Coverage subclasses rather than TrustMe
-    my $pass
-      = $cover->can('symbols') ? defined $cover->symbols
-      : $why !~ /\Arequiring .* failed\z/;
-    $ok = $Test->ok( $pass, $msg );
-    if ($pass) {
+    my $symbols
+      = $cover->can('symbols') ? $cover->symbols
+      : do {
+        # shim for using with Pod::Coverage subclasses rather than TrustMe
+        my @symbs = $cover->_get_syms($module);
+        $cover->why_unrated =~ /\Arequiring .* failed\z/
+          ? undef : { map +($_ => 1), @symbs };
+      };
+    $ok = $Test->ok( defined $symbols && !%$symbols, $msg );
+    if ($ok) {
       $Test->note( "$module: $why" );
     }
     else {
@@ -147,7 +151,7 @@ sub pod_coverage_ok {
     if (!$ok) {
       $Test->diag(join('',
         "Naked subroutines:\n",
-        map "    $_\n", $cover->uncovered,
+        map "    $_\n", sort $cover->uncovered,
       ));
     }
   }
