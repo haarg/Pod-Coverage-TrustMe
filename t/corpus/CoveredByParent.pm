@@ -4,17 +4,16 @@ use warnings;
 use CoveredFile ();
 BEGIN { our @ISA = qw(CoveredFile) }
 
-sub foo {
-}
-
-sub bar {
-}
+sub covered_one {}
+sub covered_two {}
 
 1;
 __END__
 
-=head2 foo
+=head2 covered_one
 
-This is covered
+Covered sub covered_one.
+
+=head1 Parent
 
 L<CoveredFile>
