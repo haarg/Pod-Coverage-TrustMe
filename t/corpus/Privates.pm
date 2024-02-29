@@ -1,8 +1,10 @@
-package Simple;
+package Privates;
 
 sub foo {}
 sub bar {}
 sub baz {}
+sub INTERNAL_THING {}
+sub INTERNAL_DOODAD {}
 
 1;
 __END__
@@ -28,4 +30,3 @@ The bar is just a throwaway.
 baz is very important
 
 =cut
-

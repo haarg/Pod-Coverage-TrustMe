@@ -1,12 +1,11 @@
 use strict;
 use warnings;
 
-use lib 't/Test-Pod-Coverage/lib';
-
 use Test::More;
 use Test::Builder::Tester;
-
 use Test::Pod::Coverage::TrustMe;
+
+use lib 't/corpus';
 
 MISSING_FUNCS: {
     test_out( "not ok 1 - Privates fails" );

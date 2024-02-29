@@ -1,4 +1,4 @@
-package Nosymbols;
+package NoSymbols;
 
 =head1 NAME
 
