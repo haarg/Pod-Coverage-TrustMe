@@ -1,4 +1,4 @@
-package OtherFile;
+package CoveredFile;
 use strict;
 use warnings;
 
