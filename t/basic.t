@@ -3,7 +3,7 @@ use warnings;
 use Test::More;
 use Pod::Coverage::TrustMe;
 
-unshift @INC, 't/corpus';
+use lib 't/corpus';
 
 for my $package (qw(
   CoveredByParent
