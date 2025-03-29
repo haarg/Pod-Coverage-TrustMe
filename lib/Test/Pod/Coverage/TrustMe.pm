@@ -2,7 +2,7 @@ package Test::Pod::Coverage::TrustMe;
 use strict;
 use warnings;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.002001';
 $VERSION =~ tr/_//d;
 
 use File::Spec ();
