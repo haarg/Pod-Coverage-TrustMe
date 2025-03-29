@@ -1,5 +1,8 @@
 Revision history for Pod-Coverage-TrustMe
 
+  - encode test output when needed to avoid wide character warnings
+  - fix tests when Pod::Coverage is installed but not Test::Pod::Coverage
+
 0.002000 - 2021-08-20
   - add BUILDARGS, FOREIGNBUILDARGS, and VERSION to list of private methods
   - add documentation on what DEFAULT_PRIVATE contains
