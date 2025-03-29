@@ -8,6 +8,6 @@ use Test::Pod::Coverage::TrustMe;
 
 use lib 't/corpus';
 
-pod_coverage_ok( "Test::Pod::Coverage", { coverage_class => 'Pod::Coverage' }, "T:P:C itself is OK" );
+pod_coverage_ok( "Test::Pod::Coverage::TrustMe", { coverage_class => 'Pod::Coverage' }, "T:P:C itself is OK" );
 
 done_testing;
