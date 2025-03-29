@@ -110,6 +110,14 @@ sub all_modules {
   return @modules;
 }
 
+sub _fh_has_encoding {
+  my $fh = shift;
+  return !!(
+    defined &PerlIO::get_layers
+    and grep $_ eq 'utf8', PerlIO::get_layers($fh)
+  );
+}
+
 sub pod_coverage_ok {
   my $module = shift;
   my %opts = ref $_[0] eq 'HASH' ? %{ +shift } : ();
@@ -127,6 +135,7 @@ sub pod_coverage_ok {
   local $Test::Builder::Level = $Test::Builder::Level + 1;
 
   my $ok;
+  my $extra;
   my $rating = $cover->coverage;
   if (!defined $rating) {
     my $why = $cover->why_unrated;
@@ -139,20 +148,27 @@ sub pod_coverage_ok {
           ? undef : { map +($_ => 1), @symbs };
       };
     $ok = $Test->ok( defined $symbols && !%$symbols, $msg );
-    if ($ok) {
-      $Test->note( "$module: $why" );
-    }
-    else {
-      $Test->diag( "$module: $why" );
-    }
+    $extra = "$module: $why";
   }
   else {
     $ok = $Test->is_eq((map sprintf('%3.0f%%', $_ * 100), $rating, 1), $msg);
     if (!$ok) {
-      $Test->diag(join('',
+      $extra = join('',
         "Naked subroutines:\n",
         map "    $_\n", sort $cover->uncovered,
-      ));
+      );
+    }
+  }
+  if (defined $extra) {
+    my $fh = $ok ? $Test->output : $Test->_diag_fh;
+    if (!_fh_has_encoding($fh)) {
+      utf8::encode($extra);
+    }
+    if ($ok) {
+      $Test->note( $extra );
+    }
+    else {
+      $Test->diag( $extra );
     }
   }
   return $ok;
