@@ -1,5 +1,6 @@
 Revision history for Pod-Coverage-TrustMe
 
+0.002002 - 2026-06-16
   - fix passing options to all_pod_coverage_ok
 
 0.002001 - 2025-03-29
